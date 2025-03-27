@@ -4,6 +4,7 @@ import ViaCep from './components/viaCep';
 
 export default function App() {
   return (
+    
     <View style={styles.container}>
       <ViaCep />
     </View>
