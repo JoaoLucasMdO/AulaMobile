@@ -38,7 +38,7 @@ export default function ViaCep() {
   };
 
   const handleSubmit = () => {
-    if (!dados[0] || !nome || !email) {
+    if (!dados.logradouro || !nome || !email) {
       setMessage('Preencha todos os campos!');
       setVisible(true);
     } else {
@@ -76,10 +76,10 @@ export default function ViaCep() {
           <ActivityIndicator size="large" color="#6200EE" style={{ marginVertical: 20 }} />
         ) : (
           <>
-            <TextInput label="Estado" value={dados.uf || ''} style={css.textInput} editable={false} />
             <TextInput label="Logradouro" value={dados.logradouro || ''} style={css.textInput} editable={false} />
             <TextInput label="Bairro" value={dados.bairro || ''} style={css.textInput} editable={false} />
             <TextInput label="Cidade" value={dados.localidade || ''} style={css.textInput} editable={false} />
+            <TextInput label="Região" value={dados.regiao || ''} style={css.textInput} editable={false} />
           </>
         )}
 
