@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, View, Button, ScrollView  } from 'react-native';
 import { useEffect, useState } from 'react';
 import DadoExiba from './components/Exiba';
+import DadoInserir from './components/Inserir';
 import config from './config/config';
-import { ScrollView } from 'react-native-web';
 
 
 export default function App() {
@@ -21,18 +21,7 @@ export default function App() {
     
   }, []);
 
-  const AddUser = async () => {
-    await fetch(config.PORT + '/add', {
-      method: 'POST',
-      body:JSON.stringify({
-        name: 'Jão',
-        email: 'jao@email.com'
-      }),
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      }
-    })
-  };
+  
 
   const Atualizar = async (id) => {
     await fetch(`${config.PORT}/${id}`, {
@@ -52,12 +41,9 @@ export default function App() {
   return (
     <View style={styles.container}>
       <ScrollView>
-      <Button onPress={AddUser} title={'Botão POST'}/>
       <Button onPress={() => Atualizar('67eddaebb374b556f6172bea')} title={'Botão Atualizar'}/>
-      
-
+      <DadoInserir />
       <DadoExiba campo = {campos} />
-
       <StatusBar style="auto" />
       </ScrollView>
     </View>

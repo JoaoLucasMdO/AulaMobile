@@ -64,7 +64,7 @@ app.post("/add", async(req, res) => {
 
     // Comando do mongodb
     item.save();
-    res.send({status:"Usuário adicionado!"})
+    res.send({Msg:"Usuário adicionado!"})
 });
 
 app.get('/add', async(req, res) => {
@@ -72,6 +72,21 @@ app.get('/add', async(req, res) => {
 
     res.send(users);
 });
+
+app.get('/add/:id', async(req, res) => {
+    try{
+    // pegando o parametro via url
+    const id = req.params.id;
+    
+    // objeto model
+    let newUser = await User.findById(id);
+
+    res.status(200).send(newUser.toJSON());
+} catch(error){
+    res.status(404).send(error);
+}
+});
+
 
 app.put('/update/:id', async(req, res) => {
     try{

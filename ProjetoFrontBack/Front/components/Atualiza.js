@@ -1,28 +1,46 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, Button } from 'react-native';
-import { useState } from 'react';
-import DadoDelete from './Delete';
-import Atualiza from './Atualiza';
+import { View, Text, FlatList, StyleSheet, Button, Dialog } from 'react-native';
+import { useEffect, useState } from 'react';
+import config from '../config/config';
 
-const DadoExiba = ({ campo }) => {
-    const [visible, setVisible] = useState(false);
+const DadoAtualiza = ({ id, visible }) => {
+    const [campos, setCampos] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async (id) => {
+            try {
+                const response = await fetch(`${config.PORT}/`);
+                const data = await response.json();
+                setCampos(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData(id);
+    }, [id]);
+
 
     return (
-        <View style={styles.container}>
-            <FlatList
-                data={campo}
+        <View>
+        <Dialog.Container visible={visible}>
+          <Dialog.Title>Atualizar Usuário</Dialog.Title>
+          <Dialog.Description>
+          <FlatList
+                data={campos}
                 renderItem={({ item }) => (
                     <View style={styles.itemContainer}>
                         <Text style={styles.idText}>ID: {item._id}</Text>
                         <Text style={styles.nameText}>Nome: {item.name}</Text>
                         <Text style={styles.emailText}>Email: {item.email}</Text>
-                        <DadoDelete id = {item._id}/>
-                        <Button onPress={() => {setVisible(true)}}/>
-                        <Atualiza id = {item._id}/>
                     </View>
                 )}
             />
-        </View>
+          </Dialog.Description>
+          <Dialog.Button label="Atualizar" />
+          <Dialog.Button label="Cancelar" />
+        </Dialog.Container>
+      </View>
     );
 };
 
@@ -60,4 +78,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default DadoExiba;
+export default DadoAtualiza;

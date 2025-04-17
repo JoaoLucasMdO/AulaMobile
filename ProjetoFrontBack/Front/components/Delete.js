@@ -16,9 +16,7 @@ const DadoDelete = (props) => {
             (json) => {
                 window.alert(json.Msg);
                 window.location.reload();
-            },
-            (json) => console.log(json)
-        );
+            });
     };
 
     return (
