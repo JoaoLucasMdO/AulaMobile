@@ -2,13 +2,24 @@ import React from 'react';
 import { View, Text, FlatList, StyleSheet, Button } from 'react-native';
 import { useState } from 'react';
 import DadoDelete from './Delete';
-import Atualiza from './Atualiza';
+import EditUserModal from './ModalAtt';
 
 const DadoExiba = ({ campo }) => {
+    const [list, setList] = useState(true);
     const [visible, setVisible] = useState(false);
+    const [id, setId] = useState('');
 
-    return (
-        <View style={styles.container}>
+    return list == false ? 
+
+        (
+            <View style={styles.container}>
+                <Button title='Listar Usuários' onPress={() => setList(true)}/>
+            </View>
+
+            ) : (
+
+            <View style={styles.container}>
+             
             <FlatList
                 data={campo}
                 renderItem={({ item }) => (
@@ -17,14 +28,15 @@ const DadoExiba = ({ campo }) => {
                         <Text style={styles.nameText}>Nome: {item.name}</Text>
                         <Text style={styles.emailText}>Email: {item.email}</Text>
                         <DadoDelete id = {item._id}/>
-                        <Button onPress={() => {setVisible(true)}}/>
-                        <Atualiza id = {item._id}/>
+                        <Button title="Atualizar" onPress={() => {setVisible(true); setId(item._id)}} />
                     </View>
                 )}
             />
+            <Button title='Esconder Usuários' onPress={() => setList(false)}/>
+            <EditUserModal visible = {visible} onClose={() => setVisible(false)} userId={id}/>
         </View>
-    );
-};
+            )
+        }
 
 const styles = StyleSheet.create({
     container: {

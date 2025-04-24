@@ -41,6 +41,7 @@ mongoose.connect(url)
 let User = mongoose.model("Usuario", new mongoose.Schema({
     name: String,
     email: String,
+    password: String
 
 }))
 
@@ -56,15 +57,17 @@ app.post("/add", async(req, res) => {
     //Pegar os dados
     let vnome = req.body.name;
     let vemail = req.body.email;
+    let vpassword = req.body.password;
 
     let item = await new User({
         name: vnome,
-        email: vemail
+        email: vemail,
+        password: vpassword
     });
 
     // Comando do mongodb
     item.save();
-    res.send({Msg:"Usuário adicionado!"})
+    res.send({Msg:"Usuário adicionado!", Status:"OK"});
 });
 
 app.get('/add', async(req, res) => {
@@ -73,7 +76,7 @@ app.get('/add', async(req, res) => {
     res.send(users);
 });
 
-app.get('/add/:id', async(req, res) => {
+app.get('/user/:id', async(req, res) => {
     try{
     // pegando o parametro via url
     const id = req.params.id;
@@ -81,7 +84,7 @@ app.get('/add/:id', async(req, res) => {
     // objeto model
     let newUser = await User.findById(id);
 
-    res.status(200).send(newUser.toJSON());
+    res.send({User:newUser.toJSON(), Msg:"Usuário encontrado!", status:"OK"});
 } catch(error){
     res.status(404).send(error);
 }
@@ -98,7 +101,7 @@ app.put('/update/:id', async(req, res) => {
     // objeto model
     let newUser = await User.findByIdAndUpdate(id, dados);
 
-    res.status(200).send(newUser.toJSON());
+    res.status(200).send({userAtt: newUser.toJSON(), Msg:"Usuário atualizado com sucesso!"});
 
 }catch(error){
         res.status(404).send(error);
@@ -110,7 +113,7 @@ app.delete('/delete/:id', async(req, res) => {
     let id = req.params.id;
     let i = await User.findByIdAndDelete(id);
     
-    res.status(200).send({Msg:"Excluído com sucesso!"});
+    res.send({Msg:"Excluído com sucesso!", Status:"OK"});
     }catch(error){
         res.status(404).send(error);
     };
