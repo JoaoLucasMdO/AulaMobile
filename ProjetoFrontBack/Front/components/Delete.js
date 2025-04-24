@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import config from '../config/config';
+import ModalMsg from './ModalMsg';
 
 const DadoDelete = (props) => {
+    //Aviso
+    const [msg, setMsg] = useState('');
+    const [status, setStatus] = useState('');
+    const [aviso, setAviso] = useState(false);
+    
 
     const Deletar = async (id) => {
         await fetch(`${config.PORT}/delete/${id}`, {
@@ -14,8 +20,9 @@ const DadoDelete = (props) => {
         .then((resp) => resp.json())
         .then(
             (json) => {
-                window.alert(json.Msg);
-                window.location.reload();
+                setMsg(json.Msg);
+                setStatus(json.Status);
+                setAviso(true);
             });
     };
 
@@ -33,6 +40,7 @@ const DadoDelete = (props) => {
             >
                 <Text style={{ color: '#fff' }}>Excluir</Text>
             </Pressable>
+             <ModalMsg visible={aviso} message={msg} status={status} onClose={() => setAviso(false)}/>
         </View>
     );
 };

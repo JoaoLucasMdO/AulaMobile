@@ -38,7 +38,6 @@ export default function EditUserModal({ visible, onClose, userId}) {
     const data = await response.json();
     onSave(data);
     onClose();
-    window.location.reload();
   };
 
   return (

@@ -7,6 +7,8 @@ const DadoInserir = () => {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    //Aviso
     const [msg, setMsg] = useState('');
     const [status, setStatus] = useState('');
     const [aviso, setAviso] = useState(false);
@@ -29,7 +31,6 @@ const DadoInserir = () => {
             setMsg(json.Msg);
             setStatus(json.Status);
             setAviso(true);
-            window.location.reload();
         })
       };
 

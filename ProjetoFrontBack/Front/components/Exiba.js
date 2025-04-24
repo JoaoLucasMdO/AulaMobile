@@ -1,13 +1,26 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, Button } from 'react-native';
-import { useState } from 'react';
 import DadoDelete from './Delete';
 import EditUserModal from './ModalAtt';
+import { useEffect, useState } from 'react';
+import config from '../config/config';
 
-const DadoExiba = ({ campo }) => {
+const DadoExiba = () => {
+    const [campo, setCampos] = useState([]); 
     const [list, setList] = useState(true);
     const [visible, setVisible] = useState(false);
     const [id, setId] = useState('');
+
+    
+  
+  useEffect(() => {
+    const Exibir = async() => {
+      await fetch(config.PORT + '/add')
+      .then((resp) => resp.json())
+      .then((resp) => setCampos(resp)) 
+    };
+    Exibir();    
+  }, [campo]);
 
     return list == false ? 
 
